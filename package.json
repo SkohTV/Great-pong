@@ -1,0 +1,19 @@
+{
+  "name": "great_pong",
+  "version": "1.0.0",
+  "description": "Wip",
+  "main": "/api/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SkohTV/Great_pong.git"
+  },
+  "author": "Noé LORRET-DESPRET",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SkohTV/Great_pong/issues"
+  },
+  "homepage": "https://github.com/SkohTV/Great_pong#readme"
+}

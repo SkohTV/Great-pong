@@ -5,3 +5,4 @@ Wip
 
 npm modules :
 - express
+- socketIO
