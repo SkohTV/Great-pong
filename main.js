@@ -5,7 +5,7 @@ import path from 'path';
 const app = express();
 
 app.get('/', (req,res) => {
-	res.sendFile(path.join('client', 'pages', 'home.html'))
+	//res.sendFile(path.join('client', 'pages', 'home.html'))
 	res.send('Hello');
 	console.log('Here');
 })
