@@ -2,7 +2,7 @@
   "name": "great_pong",
   "version": "1.0.0",
   "description": "Wip",
-  "main": "/api/server.js",
+  "main": "router.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/SkohTV/Great_pong/issues"
   },
-  "homepage": "https://github.com/SkohTV/Great_pong#readme"
+  "homepage": "https://github.com/SkohTV/Great_pong#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }
