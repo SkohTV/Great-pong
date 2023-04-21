@@ -1,15 +1,10 @@
-const express = require('express');
-const path = require('path');
-
+const express = require("express");
 const app = express();
+const test = require("./api/test");
 
-app.use(express.static(path.join(__dirname, 'client')));
+app.use(express.json({extented: false}));
+app.use("/api/test", test);
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client', 'pages', 'index.html'));
-  console.log(path.join(__dirname, 'client', 'pages', 'index.html'))
-});
+const PORT = 8080;
 
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server is running in port ${PORT}`));
