@@ -6,11 +6,16 @@ const app = express();
 app.use(express.static(path.join(__dirname, 'client')));
 
 
-// Main redirect (static)
+// Routing for root
+app.get('/', (req, res) => {
+	res.sendFile(path.join(__dirname, 'client/pages/index.html'));
+});
+
+
+// Redirect for gamemodes
 app.get('/:page', (req, res) => {
-	const page = req.params.page; // Extract the requested page
+	const page = req.params.page; // Extract the requested mode (page)
 	switch (page){
-		case '': // index.html -> root
 		case 'local': // local.html -> /local
 		case 'versus': // versus.html -> /versus
 		case 'arena': // arena.html -> /arena
