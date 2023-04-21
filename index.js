@@ -4,10 +4,18 @@ const app = express();
 
 app.use(express.static(__dirname));
 
-// Set up a route for the root URL
-app.get('/', (req, res) => {
-	res.sendFile(path.join(__dirname, 'client/pages/'));
-	res.send("Yo");
+app.get('/:page', (req, res) => {
+	const page = req.params.page;
+	switch (page){
+		case '':
+		case 'local':
+		case 'versus':
+		case 'arena':
+			res.sendFile(path.join(__dirname, `client/pages/${page}`));
+			break;
+		default:
+			res.sendFile(path.join(__dirname, 'client/pages/404.html'));
+	}
 });
 
 // Start the server
