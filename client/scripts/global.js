@@ -1,19 +1,22 @@
-// Propriété de la table
-var partieId;
+// Key pressed array, for key remapping
 var keyPressed = [];
 
-var playerX = [
-	{
-		item : document.getElementById('j1'),
-		yPos : 210,
-	},
-	{
-		item : document.getElementById('j2'),
-		yPos : 210,
+
+// Player object
+class Player{
+	constructor(id){
+		this.item = document.getElementById(`j${id}`);
+		this.yPos = 210;
 	}
-]
+}
+// And its generator
+var playerX = [
+	new Player(1),
+	new Player(2),
+];
 
 
+// Default params for the ball
 var ball = {
 	xDir : 5, // X direction
 	yDir : 5, // Y direction
@@ -22,8 +25,9 @@ var ball = {
 	width : 40, // Width
 	height : 40, // Height
 	item : document.getElementById('ball') // Item from DOM
-}
+};
 
+// Default params for the arena
 var arena = {
 	border : 5,
 	top : document.getElementById('cadre').offsetTop + 5,
@@ -32,6 +36,7 @@ var arena = {
 	right : document.getElementById('cadre').offsetWidth + 5,
 };
 
+// Default params for a player
 var player = {
 	width : document.getElementById('j1').offsetWidth + arena.border,
 	height : 100,
@@ -51,7 +56,6 @@ function remapKeys() {
 		if (!keyPressed.includes(e.code)){ return; }
 		keyPressed.splice(keyPressed.indexOf(e.code), 1); // Remove key press
 	}
-
 	// If window out of focus, clear keys
 	window.onblur = e => {
 		keyPressed = [];
@@ -113,11 +117,11 @@ function movePlayer(p, x){
 }
 
 
-function fdfqf() {
-	ball.style.top = ballYPos + 'px';
-	ball.style.left = ballXPos + 'px';
-	player1.style.top = player1YPos + 'px'
-	player2.style.top = player2YPos + 'px'
+//function fdfqf() {
+//	ball.style.top = ballYPos + 'px';
+//	ball.style.left = ballXPos + 'px';
+//	player1.style.top = player1YPos + 'px'
+//	player2.style.top = player2YPos + 'px'
 
 	
 
@@ -152,4 +156,4 @@ function fdfqf() {
 	//            break;
 	//    }
 	//});
-}
+
