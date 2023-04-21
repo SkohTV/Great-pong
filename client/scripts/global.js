@@ -63,22 +63,18 @@ class Player{
 
 
 //
-//* Utility
+//* Cool design pattern (read the fcking book)
 //
 
 
-// Design patterns be like :
 function playerFactory(x){
 	// No list comprehension ? Sadge
 	let tmpList = [];
-	for (let i = 1 ; i<x ; i++){
+	for (let i = 1 ; i < x+1 ; i++){
 		tmpList.push(new Player(i))
 	}
 	return tmpList;
 }
-
-movePlayer(0, 0);
-movePlayer(1, 0);
 
 
 //

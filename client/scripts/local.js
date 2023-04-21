@@ -4,6 +4,8 @@ let keyboardCtrlInterval = undefined;
 
 let playerX = playerFactory(2)
 
+console.log(playerX)
+
 function start(){
 	remapKeys();
 	loadOnceCSS();
