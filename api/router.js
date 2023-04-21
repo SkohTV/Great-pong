@@ -4,7 +4,7 @@ import express from 'express';
 
 const app = express();
 
-app.get('/main', (req,res) => {
+app.get('/', (req,res) => {
 	res.sendFile('/client/pages')
 })
 
