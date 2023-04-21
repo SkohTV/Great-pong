@@ -2,31 +2,32 @@ body {
   margin: 0px;
   padding: 50px;
 }
-body #cadre {
-  border: 5px solid black;
+body #arena {
+  border-style: solid;
+  border-width: 5px;
+  border-color: black;
   background-color: #faebd7;
   height: 800px;
 }
-body .raquette {
+body .player {
   position: absolute;
-  top: 210px;
   height: 100px;
   width: 10px;
   background-color: black;
 }
-body #j1 {
+body #p1 {
   position: absolute;
   left: 60px;
 }
-body #j2 {
+body #p2 {
   position: absolute;
   right: 60px;
 }
 body #ball {
   width: 40px;
-  height: 40px;
+  aspect-ratio: 1;
   background-color: green;
-  border-radius: 20px;
+  border-radius: 100%;
   position: absolute;
 }
 body #infos {

@@ -13,9 +13,9 @@
   "author": "Noé LORRET-DESPRET",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/SkohTV/Great_pong/issues"
+    "url": "https://github.com/SkohTV/Great-pong/issues"
   },
-  "homepage": "https://github.com/SkohTV/Great_pong#readme",
+  "homepage": "https://github.com/SkohTV/Great-pong#readme",
   "dependencies": {
     "express": "^4.18.2"
   }

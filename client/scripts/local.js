@@ -1,8 +1,15 @@
-function main(){
+let gameID = 9;
+let moveBallInterval = undefined;
+let keyboardCtrlInterval = undefined;
+
+let playerX = playerFactory(2)
+
+function start(){
 	remapKeys();
-	setInterval(moveBall, 5)
-	setInterval(keyboardControl, 5)
+	loadOnceCSS();
+	setInterval(keyboardControl, 5);
+	moveBallInterval = setInterval(moveBall, 20);
 	console.log("Done")
 }
 
-main();
+start();
