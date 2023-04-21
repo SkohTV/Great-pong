@@ -2,12 +2,12 @@ const express = require('express');
 const path = require('path');
 const app = express();
 
-app.use(express.static(path.join(__dirname, 'client')));
+app.use(express.static(__dirname));
 
 // Set up a route for the root URL
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client', 'pages', 'index.html'));
-  res.send(path.join(__dirname, 'client', 'pages', 'index.html'));
+  res.sendFile(path.join(__dirname, 'client/pages/index.html'));
+  res.send("Yo");
 });
 
 // Start the server
