@@ -9,7 +9,7 @@ const app = express();
 app.get('/', (req,res) => {
   console.log('Hello!');
   res.send('Hello, World!');
-	res.sendFile('/client/pages');
+	res.sendFile('/client/pages/index.html');
 })
 
 app.listen(3000, () => {
