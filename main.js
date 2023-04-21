@@ -5,7 +5,7 @@ import express from 'express';
 const app = express();
 
 app.get('/', (req,res) => {
-	res.sendFile('/client/pages')
+	res.sendFile(path.join(__dirname, 'client', 'pages', 'index.html'))
 	console.log('Here');
 })
 
