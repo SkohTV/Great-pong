@@ -7,8 +7,7 @@ app.use(express.static(path.join(__dirname, 'client')));
 // Set up a route for the root URL
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'client', 'pages', 'index.html'));
-  console.log("test")
-  res.send("Test")
+  res.send(path.join(__dirname, 'client', 'pages', 'index.html'));
 });
 
 // Start the server
