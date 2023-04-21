@@ -1,10 +1,17 @@
-const express = require("express");
+const express = require('express');
+const path = require('path');
 const app = express();
-const test = require("./api/test");
 
-app.use(express.json());
-app.use("/api/test", test);
+// Serve static files from the 'client' directory
+app.use(express.static(path.join(__dirname, 'client')));
 
-const PORT = 8080;
+// Set up a route for the root URL
+app.get('/', (req, res) => {
+  // Send the 'client/index.html' file
+  res.sendFile(path.join(__dirname, 'client', 'pages', 'index.html'));
+});
 
-app.listen(PORT, () => console.log(`Server is running in port ${PORT}`));
+// Start the server
+app.listen(3000, () => {
+  console.log('Server is running on port 3000');
+});
