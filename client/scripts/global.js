@@ -82,7 +82,7 @@ function playerFactory(x){
 //
 
 
-// How to remap key press to void "writting behavior"
+// How to remap key press to avoid "writting behavior"
 // https://stackoverflow.com/questions/3691461/remove-key-press-delay-in-javascript
 function remapKeys() {
 	// Remap key press
