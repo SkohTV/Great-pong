@@ -1,17 +1,31 @@
 let gameID = 9;
+let gameState = 0;
 let moveBallInterval = undefined;
 let keyboardCtrlInterval = undefined;
+let defaultCtrl = ['KeyR', 'KeyF', 'KeyO', 'KeyL']
 
-let playerX = playerFactory(2)
+loadOnceCSS();
+remapKeys();
+playerX = undefined;
 
-console.log(playerX)
+setInterval(keyboardControl, 5);
 
 function start(){
-	remapKeys();
+	playerX = playerFactory(2, defaultCtrl)
+	initGlobals();
 	loadOnceCSS();
-	setInterval(keyboardControl, 5);
 	moveBallInterval = setInterval(moveBall, 20);
-	console.log("Done")
+	document.getElementById('infos').style.display = 'none';
 }
 
-start();
+
+function displayLoader(){
+	playerX = playerFactory(2, defaultCtrl)
+	gameConfig = parseYaml();
+	initGlobals();
+	playerX = playerFactory(2, defaultCtrl)
+	loadOnceCSS();
+	loadInstantCSS();
+}
+
+displayLoader(); // To make the map look cool on load

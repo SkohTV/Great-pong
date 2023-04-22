@@ -1,8 +1,10 @@
 const express = require('express');
 const path = require('path');
-const app = express();
 
-// Where our static files are located
+const app = express();
+const PORT = 3000;
+
+// Static files folder (pages, scripts, css)
 app.use(express.static(path.join(__dirname, 'client')));
 
 
@@ -12,7 +14,7 @@ app.get('/', (req, res) => {
 });
 
 
-// Redirect for gamemodes
+// Redirect for not root
 app.get('/:page', (req, res) => {
 	const page = req.params.page; // Extract the requested mode (page)
 	switch (page){
@@ -28,6 +30,6 @@ app.get('/:page', (req, res) => {
 
 
 // Start the server
-app.listen(3000, () => {
+app.listen(PORT, () => {
 	console.log('Server is running on port 3000');
 });

@@ -9,16 +9,47 @@
 </head>
 
 <body>
+	<div id="score">
+		<p id="score-p1">0</p>
+		<p id="score-p2">0</p>
+	</div>
+
+
 	<div id="arena">
 		<div id="p1" class="player"></div>
 		<div id="p2" class="player"></div>
 		<div id="ball"></div>
 	</div>
 
-	<div id="infos">Press space to begin !</div>
 
-	<div id="p1-ctrl"><input id="p1-ctrl-up" value="KeyI"><input id="p1-ctrl-down" value="KeyK"></div>
-	<div id="p2-ctrl"><input id="p2-ctrl-up" value="KeyO"><input id="p2-ctrl-down" value="KeyL"></div>
+	<div id="infos">
+
+		<div id="controls">
+			<div id="child-wrap">
+
+				<div id="p1-ctrl">
+					<button id="p1-ctrl-up">Player1 🡅 : R</button>
+					<button id="p1-ctrl-down">Player1 🡇 : F</button>
+				</div>
+				<div id="p2-ctrl">
+					<button id="p2-ctrl-up">Player2 🡅 : O</button>
+					<button id="p2-ctrl-down">Player2 🡇 : L</button>
+				</div>
+
+			</div>
+		</div>
+
+		<div id="msg">
+			<p>Press space to start</p>
+		</div>
+
+		<div id="custom">
+			<div id="button-wrapper"><button id="update">Update</button></div>
+			<textarea placeholder="Empty" id="custom-yaml"></textarea>
+		</div>
+
+	</div>
+
 
 	<script type="text/javascript" src="/scripts/global.js"></script>
 	<script type="text/javascript" src="/scripts/local.js"></script>
