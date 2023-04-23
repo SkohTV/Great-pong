@@ -8,19 +8,27 @@ body #score {
   justify-content: space-evenly;
   align-items: center;
 }
-body #score div {
+body #score div.score {
   padding: 10px;
-  background: red;
   margin: 0 0 10px 0;
   border: 2px solid black;
   border-radius: 10px;
 }
-body #score div p {
+body #score div.score p {
   font-size: 3em;
   margin: 0;
   color: white;
   padding: 0 20px;
   text-shadow: 1px 0 #000000, -1px 0 #000000, 0 1px #000000, 0 -1px #000000;
+}
+body #score div#gameID {
+  padding: 10px;
+  margin: 0 0 10px 0;
+}
+body #score div#gameID p {
+  font-size: 2em;
+  margin: 0;
+  padding: 0 20px;
 }
 body #arena {
   border-style: solid;
@@ -44,11 +52,21 @@ body #infos #controls {
   height: 100%;
 }
 body #infos #controls #child-wrap {
-  position: absolute;
+  display: flex;
+  flex-flow: column;
   padding: 20px;
 }
 body #infos #controls #child-wrap button {
   margin: 10px 3px;
+}
+body #infos #controls div#playerID {
+  padding: 10px;
+  margin: 0 0 10px 0;
+}
+body #infos #controls div#playerID p {
+  font-size: 2em;
+  margin: 0;
+  padding: 0 20px;
 }
 body #infos #msg {
   font-size: 2em;

@@ -1,11 +1,17 @@
 const express = require('express');
+const app = express();
+
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
+
 const path = require('path');
 
-const app = express();
+
 const PORT = 3000;
 
 // Static files folder (pages, scripts, css)
 app.use(express.static(path.join(__dirname, 'client')));
+
 
 
 // Routing for root
@@ -14,22 +20,57 @@ app.get('/', (req, res) => {
 });
 
 
-// Redirect for not root
-app.get('/:page', (req, res) => {
-	const page = req.params.page; // Extract the requested mode (page)
-	switch (page){
-		case 'local': // local.html -> /local
-		case 'versus': // versus.html -> /versus
-		case 'arena': // arena.html -> /arena
-			res.sendFile(path.join(__dirname, `client/pages/${page}.html`));
-			break;
-		default: // Else 404
-			res.sendFile(path.join(__dirname, 'client/pages/404.html'));
+// Routing for local (no server allocated)
+app.get('/local', (req, res) => {
+	res.sendFile(path.join(__dirname, 'client/pages/local.html'));
+});
+
+
+// Routing for versus
+app.get('/versus', (req, res) => {
+	const dynamicID = req.query.id;
+	if (!dynamicID){
+		const randomString = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
+		playersLogged[randomString] = 0
+		res.redirect(`/versus?id=${randomString}`)
+	} else {
+		res.sendFile(path.join(__dirname, `client/pages/versus.html`));
 	}
 });
 
 
+
 // Start the server
-app.listen(PORT, () => {
+http.listen(PORT, () => {
 	console.log('Server is running on port 3000');
 });
+
+
+// All logged players with their ids
+let playersLogged = {}
+
+
+// All io goes here
+io.on('connection', (socket) => {
+
+	// Handle connection events (set player = X)
+	socket.on('newPlayer-versus-ask', data => {
+		playersLogged[data] += 1
+		io.emit('newPlayer-versus-rep', playersLogged[data]);
+	});
+
+	// Sends back messages from admin client to players client
+	socket.on('message-game-admin', res => {
+		io.emit(`message-rep-player-${res.id}`, res.data);
+	})
+
+	socket.on(`message-game-player`, res => {
+		io.emit(`message-rep-admin-${res.id}`, res.data);
+	})
+
+	socket.on(`update-game-admin`, res => {
+		io.emit(`update-rep-player-${res.id}`, res.gameConfig);
+	})
+
+});
+

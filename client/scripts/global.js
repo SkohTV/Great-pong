@@ -28,6 +28,9 @@ player:
 // Default configs of the game (can be overriden through yaml config file)
 let gameConfig = parseYaml();
 
+const ballItem = document.getElementById('ball') // Item from DOM
+const arenaItem = document.getElementById('arena') // Item from DOM
+
 
 
 //
@@ -41,22 +44,19 @@ let gameConfig = parseYaml();
 
 
 function loadOnceCSS(){
-	const tmpArena = document.getElementById('arena')
-	const tmpBall = document.getElementById('ball')
-
 	//! Small fix
 	// Round to ballSpeed the width of arena
 	// For better accuracy of ball
-	document.body.style.width = tmpArena.offsetWidth - (tmpArena.offsetWidth % gameConfig.ballSpeed) + gameConfig.arenaBorder*2 + 'px'
+	document.body.style.width = arenaItem.offsetWidth - (arenaItem.offsetWidth % gameConfig.ballSpeed) + gameConfig.arenaBorder*2 + 'px'
 
-	tmpBall.style.width = gameConfig.ballSize + 'px';
-	tmpBall.style.backgroundColor = '#' + gameConfig.ballColor;
-	tmpBall.style.borderRadius = gameConfig.isBall ? '100%' : '0%';
+	ballItem.style.width = gameConfig.ballSize + 'px';
+	ballItem.style.backgroundColor = '#' + gameConfig.ballColor;
+	ballItem.style.borderRadius = gameConfig.isBall ? '100%' : '0%';
 
-	tmpArena.style.height = gameConfig.arenaSize + 'px';
-	tmpArena.style.borderWidth = gameConfig.arenaBorder + 'px';
-	tmpArena.style.borderColor = '#' + gameConfig.arenaBorderColor;
-	tmpArena.style.backgroundColor = '#' + gameConfig.arenaBackgroundColor;
+	arenaItem.style.height = gameConfig.arenaSize + 'px';
+	arenaItem.style.borderWidth = gameConfig.arenaBorder + 'px';
+	arenaItem.style.borderColor = '#' + gameConfig.arenaBorderColor;
+	arenaItem.style.backgroundColor = '#' + gameConfig.arenaBackgroundColor;
 
 	document.querySelectorAll('.score').forEach( (x, i) => {
 		x.style.backgroundColor = '#' + gameConfig.playerColor[i];
@@ -69,13 +69,13 @@ function loadOnceCSS(){
 		
 		switch (i){
 			case 0:
-				x.style.left = tmpArena.offsetLeft + gameConfig.arenaBorder + gameConfig.playerSpace + 'px' ; break ;
+				x.style.left = arenaItem.offsetLeft + gameConfig.arenaBorder + gameConfig.playerSpace + 'px' ; break ;
 			case 1:
-				x.style.left = tmpArena.offsetLeft + tmpArena.offsetWidth - gameConfig.playerWidth - gameConfig.arenaBorder - gameConfig.playerSpace + 'px' ; break ;
+				x.style.left = arenaItem.offsetLeft + arenaItem.offsetWidth - gameConfig.playerWidth - gameConfig.arenaBorder - gameConfig.playerSpace + 'px' ; break ;
 			//case 2:
-			//	x.style.left = tmpArena.offsetLeft + gameConfig.arenaBorder + gameConfig.playerSpace + 'px'
+			//	x.style.left = arenaItem.offsetLeft + gameConfig.arenaBorder + gameConfig.playerSpace + 'px'
 			//case 3:
-			//	x.style.left = tmpArena.offsetLeft + gameConfig.arenaBorder + gameConfig.playerSpace + 'px'
+			//	x.style.left = arenaItem.offsetLeft + gameConfig.arenaBorder + gameConfig.playerSpace + 'px'
 		}
 	})
 }
@@ -83,11 +83,25 @@ function loadOnceCSS(){
 
 function loadInstantCSS(){
 	// Ball position
-	ball.item.style.top = ball.yPos + 'px';
-	ball.item.style.left = ball.xPos + 'px';
+	ballItem.style.top = ball.yPos + 'px';
+	ballItem.style.left = ball.xPos + 'px';
 
 	// Player position
 	playerX.forEach(x => x.item.style.top = x.yPos + 'px')
+}
+
+
+function displayLoader(){
+	console.log(gameConfig)
+
+	initGlobals();
+	playerX = playerFactory(numberPlayers, defaultCtrl)
+	loadInstantCSS();
+	loadOnceCSS();
+
+	initGlobals();
+	playerX = playerFactory(numberPlayers, defaultCtrl)
+	loadInstantCSS();
 }
 
 
@@ -106,15 +120,12 @@ let player = {};
 
 
 function initGlobals(){
-	const tmpArena = document.getElementById('arena');
-
 	// Default params for the arena
 	arena = {
-		top : tmpArena.offsetTop + gameConfig.arenaBorder,
-		bottom : tmpArena.offsetHeight - gameConfig.arenaBorder,
-		left : tmpArena.offsetLeft + gameConfig.arenaBorder,
-		right : tmpArena.offsetWidth - gameConfig.arenaBorder,
-		item : document.getElementById('arena')
+		top : arenaItem.offsetTop + gameConfig.arenaBorder,
+		bottom : arenaItem.offsetHeight - gameConfig.arenaBorder,
+		left : arenaItem.offsetLeft + gameConfig.arenaBorder,
+		right : arenaItem.offsetWidth - gameConfig.arenaBorder,
 	};
 
 	// Default params for the ball
@@ -123,7 +134,6 @@ function initGlobals(){
 		yDir : Math.round(Math.random()) ? gameConfig.ballSpeed : -gameConfig.ballSpeed, // Y direction
 		xPos : Math.ceil((arena.right / 2 + arena.left) - (gameConfig.ballSize / 2 - gameConfig.arenaBorder)), // X position
 		yPos : Math.ceil((arena.bottom / 2 + arena.top) - (gameConfig.ballSize / 2 - gameConfig.arenaBorder)), // Y position
-		item : document.getElementById('ball') // Item from DOM
 	};
 
 	// Default params for a player
@@ -191,22 +201,27 @@ function remapKeys() {
 }
 
 
-function keyboardControl(){
+function keyboardControlGlobal(){
 	keyPressed.forEach(key => {
 		switch (key){
-			case playerX[0].ctrlUp:
-				if (gameState){ movePlayer(0, -player.speed); } break ;
-			case playerX[0].ctrlDown:
-				if (gameState){ movePlayer(0,  player.speed); } break ;
-			case playerX[1].ctrlUp:
-				if (gameState){ movePlayer(1, -player.speed); } break ;
-			case playerX[1].ctrlDown:
-				if (gameState){ movePlayer(1,  player.speed); } break ;
 			case 'Space':
 				if (!gameState){ start() ; gameState = 1 ; } break ;
 		}
 	})
 }
+
+
+function keyboardControlPlayer(x){
+	keyPressed.forEach(key => {
+		switch (key){
+			case playerX[x].ctrlUp:
+				movePlayer(x, -player.speed) ; break ;
+			case playerX[x].ctrlDown:
+				movePlayer(x,  player.speed) ; break ;
+		}
+	})
+}
+
 
 
 
@@ -226,7 +241,7 @@ function moveBall(){
 		}
 	}
 
-	if (newBallXPos >= arena.right + arena.item.offsetLeft - gameConfig.playerSpace - gameConfig.playerWidth - gameConfig.ballSize) {
+	if (newBallXPos >= arena.right + arenaItem.offsetLeft - gameConfig.playerSpace - gameConfig.playerWidth - gameConfig.ballSize) {
 		if (ball.yPos+gameConfig.ballSize >= playerX[1].yPos && ball.yPos <= playerX[1].yPos+player.height){
 			ball.xDir = -Math.abs(ball.xDir);
 		}
@@ -260,6 +275,16 @@ function movePlayer(p, x){
 
 
 
+function start(){
+	displayLoader();
+
+	moveBallInterval = setInterval(moveBall, 20);
+	document.getElementById('controls').style.display = 'none';
+	document.getElementById('msg').style.display = 'none';
+	document.getElementById('custom').style.display = 'none';
+}
+
+
 function stopGame(x){
 	clearInterval(moveBallInterval);
 	let score = document.querySelector(`.score.p${x+1}>p`);
@@ -277,9 +302,6 @@ function stopGame(x){
 
 
 window.onload = () => {
-	// Update gameConfig params
-	document.getElementById('update').addEventListener('click', displayLoader);
-
 	// This whole purpose it to override tab presses to '  ' for yaml config :)
 	document.getElementById('custom-yaml').addEventListener('keydown', (event) => {
 		if (event.key === 'Tab') {

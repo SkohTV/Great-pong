@@ -1,40 +1,27 @@
-let gameID = 9;
-let gameState = 0;
+const numberPlayers = 2;
 
+let gameState = 0;
+let playerX = [];
+
+let keyboardCtrlInterval = []
 let moveBallInterval = undefined;
 
-let defaultCtrl = ['KeyR', 'KeyF', 'KeyO', 'KeyL']
-let keyboardCtrlInterval = setInterval(keyboardControl, 5);
+setInterval(keyboardControlGlobal, 5)
 
+let defaultCtrl = ['KeyR', 'KeyF', 'KeyO', 'KeyL']
+
+
+keyboardCtrlInterval = [setInterval(() => keyboardControlPlayer(0), 5), setInterval(() => keyboardControlPlayer(1), 5)]
+
+
+window.onload = () => {
+	// Update gameConfig params
+	document.getElementById('update').addEventListener('click', () => { gameConfig = parseYaml() ; displayLoader() ; })
+}
+
+
+gameConfig = parseYaml();
+displayLoader(); // To make the map look cool on load
 
 loadOnceCSS();
 remapKeys();
-playerX = undefined;
-
-
-function start(){
-	clearInterval(keyboardCtrlInterval)
-	keyboardCtrlInterval = setInterval(keyboardControl, 5);
-
-	displayLoader();
-
-	moveBallInterval = setInterval(moveBall, 20);
-	document.getElementById('controls').style.display = 'none';
-	document.getElementById('msg').style.display = 'none';
-	document.getElementById('custom').style.display = 'none';
-}
-
-
-function displayLoader(){
-	gameConfig = parseYaml();
-	initGlobals();
-	playerX = playerFactory(2, defaultCtrl)
-	loadInstantCSS();
-	loadOnceCSS();
-
-	initGlobals();
-	playerX = playerFactory(2, defaultCtrl)
-	loadInstantCSS();
-}
-
-displayLoader(); // To make the map look cool on load
