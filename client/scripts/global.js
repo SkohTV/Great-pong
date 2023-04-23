@@ -3,6 +3,7 @@
 //
 
 
+
 // Load default yaml file
 document.getElementById('custom-yaml').value = `ball:
   speed: 5
@@ -20,11 +21,13 @@ player:
   space: 40
   speed: 4
   color:
-    - ff2222
-    - 2222ff`;
+    - ee4b2b
+    - 6495ed`;
+
 
 // Default configs of the game (can be overriden through yaml config file)
 let gameConfig = parseYaml();
+
 
 
 //
@@ -36,6 +39,7 @@ let gameConfig = parseYaml();
 //
 
 
+
 function loadOnceCSS(){
 	const tmpArena = document.getElementById('arena')
 	const tmpBall = document.getElementById('ball')
@@ -44,7 +48,6 @@ function loadOnceCSS(){
 	// Round to ballSpeed the width of arena
 	// For better accuracy of ball
 	document.body.style.width = tmpArena.offsetWidth - (tmpArena.offsetWidth % gameConfig.ballSpeed) + gameConfig.arenaBorder*2 + 'px'
-	document.body.style.height = tmpArena.offsetHeight - (tmpArena.offsetWidth % gameConfig.ballSpeed) + gameConfig.arenaBorder*2 + 'px'
 
 	tmpBall.style.width = gameConfig.ballSize + 'px';
 	tmpBall.style.backgroundColor = '#' + gameConfig.ballColor;
@@ -54,6 +57,10 @@ function loadOnceCSS(){
 	tmpArena.style.borderWidth = gameConfig.arenaBorder + 'px';
 	tmpArena.style.borderColor = '#' + gameConfig.arenaBorderColor;
 	tmpArena.style.backgroundColor = '#' + gameConfig.arenaBackgroundColor;
+
+	document.querySelectorAll('.score').forEach( (x, i) => {
+		x.style.backgroundColor = '#' + gameConfig.playerColor[i];
+	})
 
 	document.querySelectorAll('.player').forEach( (x, i) => {
 		x.style.backgroundColor = '#' + gameConfig.playerColor[i];
@@ -72,7 +79,7 @@ function loadOnceCSS(){
 		}
 	})
 }
-//arena.right + arena.item.offsetLeft - gameConfig.arenaBorder - gameConfig.playerSpace - gameConfig.playerWidth - gameConfig.ballSize
+
 
 function loadInstantCSS(){
 	// Ball position
@@ -84,9 +91,11 @@ function loadInstantCSS(){
 }
 
 
+
 //
 //* Init of global variables
 //
+
 
 
 // Key pressed array, for key remapping
@@ -94,6 +103,7 @@ let keyPressed = [];
 let ball = {};
 let arena = {};
 let player = {};
+
 
 function initGlobals(){
 	const tmpArena = document.getElementById('arena');
@@ -109,22 +119,20 @@ function initGlobals(){
 
 	// Default params for the ball
 	ball = {
-		xDir : gameConfig.ballSpeed, // X direction
-		yDir : gameConfig.ballSpeed, // Y direction
-		xPos : parseInt(arena.bottom / 2) + (gameConfig.arenaSize % gameConfig.ballSpeed), // X position
-		yPos : parseInt(gameConfig.arenaSize / 2) + (gameConfig.arenaSize % gameConfig.ballSpeed), // Y position
+		xDir : Math.round(Math.random()) ? gameConfig.ballSpeed : -gameConfig.ballSpeed, // X direction
+		yDir : Math.round(Math.random()) ? gameConfig.ballSpeed : -gameConfig.ballSpeed, // Y direction
+		xPos : Math.ceil((arena.right / 2 + arena.left) - (gameConfig.ballSize / 2 - gameConfig.arenaBorder)), // X position
+		yPos : Math.ceil((arena.bottom / 2 + arena.top) - (gameConfig.ballSize / 2 - gameConfig.arenaBorder)), // Y position
 		item : document.getElementById('ball') // Item from DOM
 	};
 
 	// Default params for a player
 	player = {
-		width : document.getElementById('p1').offsetWidth + gameConfig.arenaBorder,
-		height : document.getElementById('p1').offsetHeight,
+		width : document.querySelector('.player').offsetWidth + gameConfig.arenaBorder,
+		height : document.querySelector('.player').offsetHeight,
 		speed : gameConfig.playerSpeed,
 	};
 }
-
-// Player object
 
 
 
@@ -132,14 +140,19 @@ function initGlobals(){
 //* Cool design pattern (read the fcking book)
 //
 
+
+
 class Player{
 	constructor(id, up, down){
-		this.item = document.getElementById(`p${id}`);
+		this.item = document.querySelector(`.player.p${id}`);
+		this.itemScore = document.querySelector(`.score.p${id}`);
+		this.score = 0;
 		this.yPos = ((arena.bottom / 2 + arena.top) - (gameConfig.playerSize / 2 - gameConfig.arenaBorder));
-		this.ctrlUp = up
-		this.ctrlDown = down
+		this.ctrlUp = up;
+		this.ctrlDown = down;
 	}
 }
+
 
 function playerFactory(x, arr){
 	// No list comprehension ? Sadge
@@ -151,9 +164,11 @@ function playerFactory(x, arr){
 }
 
 
+
 //
 //* Keyboard control
 //
+
 
 
 // How to remap key press to avoid "writting behavior"
@@ -175,6 +190,7 @@ function remapKeys() {
 	}
 }
 
+
 function keyboardControl(){
 	keyPressed.forEach(key => {
 		switch (key){
@@ -193,9 +209,11 @@ function keyboardControl(){
 }
 
 
+
 //
 //* Movement functions (maths)
 //
+
 
 
 function moveBall(){
@@ -216,14 +234,15 @@ function moveBall(){
 
 	if (newBallYPos > arena.bottom + arena.top - gameConfig.ballSize - gameConfig.arenaBorder){ ball.yDir = -Math.abs(ball.yDir); }
 	if (newBallYPos < arena.top){ ball.yDir = Math.abs(ball.yDir); }
-	if (newBallXPos > arena.right + gameConfig.arenaBorder){ stopGame(0) ; return ; }
-	if (newBallXPos < arena.left){ stopGame(1) ; return ; }
+	if (newBallXPos > arena.right + gameConfig.arenaBorder + gameConfig.playerSpace + gameConfig.playerWidth - gameConfig.ballSize){ stopGame(0) ; return ; }
+	if (newBallXPos < arena.left - gameConfig.arenaBorder){ stopGame(1) ; return ; }
 
 	ball.xPos += ball.xDir;
 	ball.yPos += ball.yDir;
 
 	loadInstantCSS();
 }
+
 
 function movePlayer(p, x){
 	playerX[p].yPos += x
@@ -234,22 +253,28 @@ function movePlayer(p, x){
 }
 
 
+
 //
 //* Stop/start the game
 //
 
 
+
 function stopGame(x){
 	clearInterval(moveBallInterval);
-	clearInterval(keyboardCtrlInterval);
-	console.log(x + ' win');
+	let score = document.querySelector(`.score.p${x+1}>p`);
+	score.textContent = parseInt(score.textContent) + 1;
 	gameState = 0;
+	document.getElementById('msg').style.display = 'block';
 }
+
 
 
 //
 //* Buttons & listeners
 //
+
+
 
 window.onload = () => {
 	// Update gameConfig params
@@ -266,12 +291,28 @@ window.onload = () => {
 			myInput.selectionStart = myInput.selectionEnd = start + 1;
 		}
 	});
+
+	document.querySelectorAll('.ctrl').forEach( (x, index) => {
+		x.childNodes[1].addEventListener('click', y => updateCtrl(index, 'up', y.target))
+		x.childNodes[3].addEventListener('click', y => updateCtrl(index, 'down', y.target))
+	})
 }
+
+
+function updateCtrl(index, key, item){
+	item.textContent = 'Listening...'
+	window.addEventListener('keypress', function tmp(e){
+		key === 'up' ? playerX[index].ctrlUp = e.code : playerX[index].ctrlDown = e.code;
+		item.textContent = `Player${index+1} ${key==='up' ? '🡅' : '🡇'} : ${e.key}`;
+		defaultCtrl[ index*2 + (key==='up' ? 0 : 1) ] = e.code;
+		window.removeEventListener('keypress', tmp);
+	})
+}
+
 
 function parseYaml() {
 	const yamlString = document.getElementById('custom-yaml').value
 	const lines = yamlString.split('\n');
-
 
 	let parsedYaml = {playerColor: []}; // We init with an array because otherwise can't push
 	let mode = 'none'
