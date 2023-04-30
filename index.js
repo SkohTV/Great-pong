@@ -69,8 +69,20 @@ io.on('connection', (socket) => {
 	})
 
 	socket.on(`update-game-admin`, res => {
-		io.emit(`update-rep-player-${res.id}`, res.gameConfig);
+		io.emit(`update-rep-player-${res.id}`, res.pack);
 	})
+
+	socket.on(`askupdateCSS-ask-player`, res => {
+		io.emit(`askupdateCSS-rep-admin-${res.id}`);
+	});
+
+	socket.on(`gameStarted-ask`, res => {
+		io.emit(`gameStarted-rep-${res.id}`);
+	});
+
+	socket.on(`stopGame-ask`, res => {
+		io.emit(`stopGame-rep-${res.id}`, res.player);
+	});
 
 });
 

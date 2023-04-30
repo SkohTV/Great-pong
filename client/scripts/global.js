@@ -32,6 +32,11 @@ const ballItem = document.getElementById('ball') // Item from DOM
 const arenaItem = document.getElementById('arena') // Item from DOM
 
 
+//! Make the arena width definitive (otherwise impossible to use)
+// Not exact, but at least fixed int
+arenaItem.style.width = arenaItem.offsetWidth - (gameConfig.arenaBorder*2) + 'px'
+
+
 
 //
 //* Scripts above are run FIRST and ONCE on load
@@ -44,11 +49,6 @@ const arenaItem = document.getElementById('arena') // Item from DOM
 
 
 function loadOnceCSS(){
-	//! Small fix
-	// Round to ballSpeed the width of arena
-	// For better accuracy of ball
-	document.body.style.width = arenaItem.offsetWidth - (arenaItem.offsetWidth % gameConfig.ballSpeed) + gameConfig.arenaBorder*2 + 'px'
-
 	ballItem.style.width = gameConfig.ballSize + 'px';
 	ballItem.style.backgroundColor = '#' + gameConfig.ballColor;
 	ballItem.style.borderRadius = gameConfig.isBall ? '100%' : '0%';
@@ -92,8 +92,6 @@ function loadInstantCSS(){
 
 
 function displayLoader(){
-	console.log(gameConfig)
-
 	initGlobals();
 	playerX = playerFactory(numberPlayers, defaultCtrl)
 	loadInstantCSS();
@@ -120,6 +118,12 @@ let player = {};
 
 
 function initGlobals(){
+	//! Small fix
+	// Round to ballSpeed the width of arena
+	// For better accuracy of ball
+	// parseInt(9999px) => 9999 (cringe)
+	arenaItem.style.width = parseInt(arenaItem.style.width) - (parseInt(arenaItem.style.width) % gameConfig.ballSpeed) + 'px'
+
 	// Default params for the arena
 	arena = {
 		top : arenaItem.offsetTop + gameConfig.arenaBorder,
@@ -132,8 +136,8 @@ function initGlobals(){
 	ball = {
 		xDir : Math.round(Math.random()) ? gameConfig.ballSpeed : -gameConfig.ballSpeed, // X direction
 		yDir : Math.round(Math.random()) ? gameConfig.ballSpeed : -gameConfig.ballSpeed, // Y direction
-		xPos : Math.ceil((arena.right / 2 + arena.left) - (gameConfig.ballSize / 2 - gameConfig.arenaBorder)), // X position
-		yPos : Math.ceil((arena.bottom / 2 + arena.top) - (gameConfig.ballSize / 2 - gameConfig.arenaBorder)), // Y position
+		xPos : Math.ceil((arena.right / 2 + arena.left) - (gameConfig.ballSize / 2 + gameConfig.arenaBorder)), // X position
+		yPos : Math.ceil((arena.bottom / 2 + arena.top) - (gameConfig.ballSize / 2 + gameConfig.arenaBorder)), // Y position
 	};
 
 	// Default params for a player
@@ -282,15 +286,6 @@ function start(){
 	document.getElementById('controls').style.display = 'none';
 	document.getElementById('msg').style.display = 'none';
 	document.getElementById('custom').style.display = 'none';
-}
-
-
-function stopGame(x){
-	clearInterval(moveBallInterval);
-	let score = document.querySelector(`.score.p${x+1}>p`);
-	score.textContent = parseInt(score.textContent) + 1;
-	gameState = 0;
-	document.getElementById('msg').style.display = 'block';
 }
 
 

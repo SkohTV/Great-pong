@@ -25,3 +25,22 @@ displayLoader(); // To make the map look cool on load
 
 loadOnceCSS();
 remapKeys();
+
+
+function keyboardControlGlobal(){
+	keyPressed.forEach(key => {
+		switch (key){
+			case 'Space':
+				if (!gameState){ start() ; gameState = 1 ; } break ;
+		}
+	})
+}
+
+
+function stopGame(x){
+	clearInterval(moveBallInterval);
+	let score = document.querySelector(`.score.p${x+1}>p`);
+	score.textContent = parseInt(score.textContent) + 1;
+	gameState = 0;
+	document.getElementById('msg').style.display = 'block';
+}

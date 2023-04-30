@@ -13,8 +13,6 @@ let playerX = [];
 let keyboardCtrlInterval = []
 let moveBallInterval = undefined;
 
-setInterval(keyboardControlGlobal, 5)
-
 let defaultCtrl = ['KeyR', 'KeyF', 'KeyO', 'KeyL']
 
 
@@ -38,6 +36,11 @@ socket.on('newPlayer-versus-rep', data => {
 	if (playerID === undefined){
 		playerID = data;
 		isAdmin = (playerID === 1 ? true : false);
+
+		if (playerID > numberPlayers) { window.location.replace('/') }
+		else { hideParams() }
+		if (isAdmin) { setInterval(keyboardControlGlobal, 5) }
+
 		document.querySelector('#playerID>p').textContent = `You are player ${playerID}`;
 		firstLoadCommunicate();
 		setInterval(communication, 5);
@@ -72,13 +75,10 @@ function firstLoadCommunicate(){
 			loadInstantCSS();
 		})
 
+		socket.on(`askupdateCSS-rep-admin-${gameID}`, shareCSS)
+
 		// Update gameConfig params
-		document.getElementById('update').addEventListener('click', () => {
-			gameConfig = parseYaml();
-			displayLoader();
-			package = {id: gameID, gameConfig: gameConfig};
-			socket.emit(`update-game-admin`, package);
-		})
+		document.getElementById('update').addEventListener('click', shareCSS)
 	}
 
 	else {
@@ -96,9 +96,62 @@ function firstLoadCommunicate(){
 		})
 
 		socket.on(`update-rep-player-${gameID}`, res => {
-			console.log(res);
-			gameConfig = res;
+			gameConfig = res[0];
+			arenaItem.style.width = res[1]
 			displayLoader();
 		})
+
+		socket.on(`gameStarted-rep-${gameID}`, res => document.getElementById('controls').style.display = 'none')
+
+		socket.on(`stopGame-rep-${gameID}`, res => {
+			let score = document.querySelector(`.score.p${res+1}>p`);
+			score.textContent = parseInt(score.textContent) + 1;
+		})
+
+		socket.emit(`askupdateCSS-ask-player`, {id: gameID});
 	}
+}
+
+
+function shareCSS(){
+	gameConfig = parseYaml();
+	displayLoader();
+	package = {id: gameID, pack: [gameConfig, arenaItem.style.width]};
+	socket.emit(`update-game-admin`, package);
+}
+
+
+function hideParams(){
+	if (!isAdmin) {
+		document.getElementById('custom').style.display = 'none';
+		document.getElementById('msg').style.display = 'none';
+	}
+
+	document.querySelectorAll('.ctrl').forEach( (x,i) => {
+		if (i+1 != playerID) { x.style.display = 'none' }
+	})
+}
+
+
+function keyboardControlGlobal(){
+	keyPressed.forEach(key => {
+		switch (key){
+			case 'Space':
+				if (!gameState){
+					start();
+					gameState = 1;
+					socket.emit('gameStarted-ask', {id: gameID});
+				} break ;
+		}
+	})
+}
+
+
+function stopGame(x){
+	clearInterval(moveBallInterval);
+	let score = document.querySelector(`.score.p${x+1}>p`);
+	score.textContent = parseInt(score.textContent) + 1;
+	socket.emit('stopGame-ask', {id: gameID, player: x});
+	gameState = 0;
+	document.getElementById('msg').style.display = 'block';
 }
