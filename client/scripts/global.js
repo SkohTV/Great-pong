@@ -11,7 +11,7 @@ document.getElementById('custom-yaml').value = `ball:
   color: 008000
   isBall: false
 arena:
-  size: 300
+  size: 400
   border: 3
   borderColor: 000000
   backgroundColor: faebd7
@@ -72,10 +72,6 @@ function loadOnceCSS(){
 				x.style.left = arenaItem.offsetLeft + gameConfig.arenaBorder + gameConfig.playerSpace + 'px' ; break ;
 			case 1:
 				x.style.left = arenaItem.offsetLeft + arenaItem.offsetWidth - gameConfig.playerWidth - gameConfig.arenaBorder - gameConfig.playerSpace + 'px' ; break ;
-			//case 2:
-			//	x.style.left = arenaItem.offsetLeft + gameConfig.arenaBorder + gameConfig.playerSpace + 'px'
-			//case 3:
-			//	x.style.left = arenaItem.offsetLeft + gameConfig.arenaBorder + gameConfig.playerSpace + 'px'
 		}
 	})
 }
@@ -202,16 +198,6 @@ function remapKeys() {
 	window.onblur = () => {
 		keyPressed = [];
 	}
-}
-
-
-function keyboardControlGlobal(){
-	keyPressed.forEach(key => {
-		switch (key){
-			case 'Space':
-				if (!gameState){ start() ; gameState = 1 ; } break ;
-		}
-	})
 }
 
 
