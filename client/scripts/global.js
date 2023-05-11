@@ -225,13 +225,15 @@ function moveBall(){
 	const newBallXPos = ball.xPos + ball.xDir;
 	const newBallYPos = ball.yPos + ball.yDir;
 
-	if (newBallXPos <= arena.left + gameConfig.playerSpace + gameConfig.playerWidth) {
+	let calc = arena.left + gameConfig.playerSpace + gameConfig.playerWidth;
+	if (newBallXPos >= calc - gameConfig.ballSize/2 && newBallXPos <= calc) {
 		if ((ball.yPos+gameConfig.ballSize >= playerX[0].yPos) && (ball.yPos <= playerX[0].yPos+player.height)){
 			ball.xDir = Math.abs(ball.xDir);
 		}
 	}
 
-	if (newBallXPos >= arena.right + arenaItem.offsetLeft - gameConfig.playerSpace - gameConfig.playerWidth - gameConfig.ballSize) {
+	calc = arena.right + arenaItem.offsetLeft - gameConfig.playerSpace - gameConfig.playerWidth - gameConfig.ballSize;
+	if (newBallXPos >= calc && newBallXPos <= calc + gameConfig.ballSize/2) {
 		if (ball.yPos+gameConfig.ballSize >= playerX[1].yPos && ball.yPos <= playerX[1].yPos+player.height){
 			ball.xDir = -Math.abs(ball.xDir);
 		}
@@ -239,8 +241,20 @@ function moveBall(){
 
 	if (newBallYPos > arena.bottom + arena.top - gameConfig.ballSize - gameConfig.arenaBorder){ ball.yDir = -Math.abs(ball.yDir); }
 	if (newBallYPos < arena.top){ ball.yDir = Math.abs(ball.yDir); }
-	if (newBallXPos > arena.right + gameConfig.arenaBorder + gameConfig.playerSpace + gameConfig.playerWidth - gameConfig.ballSize){ stopGame(0) ; return ; }
-	if (newBallXPos < arena.left - gameConfig.arenaBorder){ stopGame(1) ; return ; }
+	if (newBallXPos > arena.right - gameConfig.ballSize + gameConfig.playerSpace + gameConfig.playerWidth){
+		ball.xPos = arena.right - gameConfig.ballSize + gameConfig.playerSpace + gameConfig.playerWidth;
+		ball.yPos += ball.yDir;
+		loadInstantCSS();
+		stopGame(0);
+		return;
+	}
+	if (newBallXPos < arena.left){
+		ball.xPos = arena.left;
+		ball.yPos += ball.yDir;
+		loadInstantCSS();
+		stopGame(1);
+		return;
+	}
 
 	ball.xPos += ball.xDir;
 	ball.yPos += ball.yDir;
@@ -281,8 +295,7 @@ function start(){
 //
 
 
-
-window.onload = () => {
+addEventListener("load", e => {
 	// This whole purpose it to override tab presses to '  ' for yaml config :)
 	document.getElementById('custom-yaml').addEventListener('keydown', (event) => {
 		if (event.key === 'Tab') {
@@ -295,11 +308,12 @@ window.onload = () => {
 		}
 	});
 
+
 	document.querySelectorAll('.ctrl').forEach( (x, index) => {
 		x.childNodes[1].addEventListener('click', y => updateCtrl(index, 'up', y.target))
 		x.childNodes[3].addEventListener('click', y => updateCtrl(index, 'down', y.target))
 	})
-}
+})
 
 
 function updateCtrl(index, key, item){
