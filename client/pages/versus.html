@@ -9,49 +9,56 @@
 </head>
 
 <body>
-	<div id="score">
-		<div class="score p1"><p>0</p></div>
-		<div id="gameID"><p></p></div>
-		<div class="score p2"><p>0</p></div>
-	</div>
+	<header>
+		<p>Great Pong</p>
+	</header>
+
+	<div id="global-wrapper">
+
+		<div id="score">
+			<div class="score p1"><p>0</p></div>
+			<div id="gameID"><p></p></div>
+			<div class="score p2"><p>0</p></div>
+		</div>
 
 
-	<div id="arena">
-		<div class="player p1"></div>
-		<div class="player p2"></div>
-		<div id="ball"></div>
-	</div>
+		<div id="arena">
+			<div class="player p1"></div>
+			<div class="player p2"></div>
+			<div id="ball"></div>
+		</div>
 
 
-	<div id="infos">
+		<div id="infos">
 
-		<div id="controls">
-			<div id="child-wrap">
+			<div id="controls">
+				<div id="child-wrap">
 
-				<div class="p1 ctrl">
-					<button class="p1 up">Player1 🡅 : r</button>
-					<button class="p1 down">Player1 🡇 : f</button>
+					<div class="p1 ctrl">
+						<button class="p1 up">Player1 🡅 : r</button>
+						<button class="p1 down">Player1 🡇 : f</button>
+					</div>
+					<div class="p2 ctrl">
+						<button class="p2 up">Player2 🡅 : o</button>
+						<button class="p2 down">Player2 🡇 : l</button>
+					</div>
+
 				</div>
-				<div class="p2 ctrl">
-					<button class="p2 up">Player2 🡅 : o</button>
-					<button class="p2 down">Player2 🡇 : l</button>
-				</div>
-
+				<div id="playerID"><p></p></div>
 			</div>
-			<div id="playerID"><p></p></div>
-		</div>
 
-		<div id="msg">
-			<p>Press space to start</p>
-		</div>
+			<div id="msg">
+				<p>Press space to start</p>
+			</div>
 
-		<div id="custom">
-			<div id="button-wrapper"><button id="update">Update</button></div>
-			<textarea placeholder="Empty" id="custom-yaml"></textarea>
+			<div id="custom">
+				<div id="button-wrapper"><button id="update">Update</button></div>
+				<textarea placeholder="Empty" id="custom-yaml"></textarea>
+			</div>
+
 		</div>
 
 	</div>
-
 
 	<script src="/socket.io/socket.io.js"></script>
 	<script type="text/javascript" src="../scripts/global.js"></script>
