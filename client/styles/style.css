@@ -11,24 +11,18 @@ textarea {
   background-color: #a3a3a3;
   border: 2px solid black;
 }
-
-::-webkit-scrollbar {
-  width: 20px;
+textarea::-webkit-scrollbar {
+  width: 8px;
 }
-
-::-webkit-scrollbar-track {
-  background-color: transparent;
+textarea::-webkit-scrollbar-track {
+  border-radius: 6px;
+  background-color: #e7e7e7;
+  border: 1px solid #cacaca;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
-
-::-webkit-scrollbar-thumb {
-  background-color: #d6dee1;
-  border-radius: 20px;
-  border: 6px solid transparent;
-  background-clip: content-box;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background-color: #a8bbbf;
+textarea::-webkit-scrollbar-thumb {
+  border-radius: 6px;
+  background-color: #363636;
 }
 
 body {
@@ -40,12 +34,19 @@ body header {
   top: 0;
   left: 0;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
   margin: 0;
   padding: 10px;
-  width: 100%;
+  width: calc(100% - 20px);
   background-color: #4F4F4F;
+}
+body header svg {
+  fill: #6495ED;
+}
+body header svg:hover {
+  fill: #4d78c6;
+  transition-duration: 100ms;
 }
 body header p {
   font-size: 3em;
@@ -78,6 +79,7 @@ body #score div#gameID p {
   font-size: 2em;
   margin: 0;
   padding: 0 20px;
+  color: #B0DAF1;
 }
 body #arena {
   border-style: solid;
@@ -105,9 +107,6 @@ body #infos #controls #child-wrap {
   flex-flow: column;
   padding: 20px;
 }
-body #infos #controls #child-wrap button {
-  margin: 10px 3px;
-}
 body #infos #controls div#playerID {
   padding: 10px;
   margin: 0 0 10px 0;
@@ -116,6 +115,7 @@ body #infos #controls div#playerID p {
   font-size: 2em;
   margin: 0;
   padding: 0 20px;
+  color: #B0DAF1;
 }
 body #infos #msg {
   font-size: 2em;
@@ -148,4 +148,56 @@ body #infos #custom textarea {
     -o-tab-size: 4;
        tab-size: 4;
   resize: none;
+}
+
+.ctrl button {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  border: 1px solid rgba(27, 31, 35, 0.15);
+  border-radius: 6px;
+  box-shadow: rgba(27, 31, 35, 0.1) 0 1px 0;
+  box-sizing: border-box;
+  color: #fff;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  padding: 6px 16px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  -moz-user-select: none;
+       user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  white-space: nowrap;
+  width: 200px;
+  margin: 10px 5px;
+}
+.ctrl button.p1 {
+  background-color: var(--p1-normal);
+}
+.ctrl button.p2 {
+  background-color: var(--p2-normal);
+}
+.ctrl button:disabled {
+  border-color: rgba(27, 31, 35, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+}
+.ctrl button:disabled.p1 {
+  background-color: var(--p1-disable);
+}
+.ctrl button:disabled.p2 {
+  background-color: var(--p2-disable);
+}
+.ctrl button:hover.p1 {
+  background-color: var(--p1-hover);
+}
+.ctrl button:hover.p2 {
+  background-color: var(--p2-hover);
+}
+.ctrl button:focus {
+  outline: none;
 }/*# sourceMappingURL=style.css.map */

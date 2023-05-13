@@ -67,6 +67,7 @@ function loadOnceCSS(){
 		x.style.height = gameConfig.playerSize + 'px';
 		x.style.width = gameConfig.playerWidth + 'px'
 		
+		// Leftover from previous multiplayer idea, can be reformated (not deleted), but don't really matter
 		switch (i){
 			case 0:
 				x.style.left = arenaItem.offsetLeft + gameConfig.arenaBorder + gameConfig.playerSpace + 'px' ; break ;
@@ -74,6 +75,21 @@ function loadOnceCSS(){
 				x.style.left = arenaItem.offsetLeft + arenaItem.offsetWidth - gameConfig.playerWidth - gameConfig.arenaBorder - gameConfig.playerSpace + 'px' ; break ;
 		}
 	})
+
+	// https://stackoverflow.com/a/60357706/21143650
+	let i = 0;
+	const mapping = {
+		'.p1.up' : ['--p1-normal', '--p1-hover', '--p1-disable'],
+		'.p1.down' : ['--p1-normal', '--p1-hover', '--p1-disable'],
+		'.p2.up' : ['--p2-normal', '--p2-hover', '--p2-disable'],
+		'.p2.down' : ['--p2-normal', '--p2-hover', '--p2-disable']};
+	for (const key in mapping){
+		const index = Math.floor(i/2)
+		document.querySelector(key).style.setProperty(mapping[key][0], '#'+gameConfig.playerColor[index]);
+		document.querySelector(key).style.setProperty(mapping[key][1], '#'+gameConfig.playerColor[index]);
+		document.querySelector(key).style.setProperty(mapping[key][2], '#'+gameConfig.playerColor[index]);
+		i++;
+	}
 }
 
 

@@ -26,7 +26,6 @@ displayLoader(); // To make the map look cool on load
 loadOnceCSS();
 remapKeys();
 
-
 function keyboardControlGlobal(){
 	keyPressed.forEach(key => {
 		switch (key){

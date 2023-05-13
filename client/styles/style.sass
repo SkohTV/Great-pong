@@ -5,6 +5,24 @@ $Blue_Bell: #8D91C7
 $Uranium_Blue: #B0DAF1
 $Mindaro: #DDFCAD
 
+$p1-normal: #2ea44f
+
+
+
+// When you realize you went too far
+// https://codepen.io/jakealbaugh/post/css4-variables-and-sass
+//:root
+//	--p1-normal: #2ea44f
+//	--p1-hover: #2c974b
+//	--p1-disable: #94d3a2
+//	--p2-normal: #302ea4
+//	--p2-hover: #2c4597
+//	--p2-disable: #94b1d3
+
+@function cssVar($name)
+	@return var(--#{$name})
+
+
 
 html
 	background-image: url(/src/background.svg)
@@ -14,56 +32,44 @@ html
 	height: 99vh
 	overflow-x: hidden
 
+
 textarea
 	background-color: $Davys_Grey_New
 	border: 2px solid black
+	// https://codepen.io/devstreak/pen/dMYgeO
+	&::-webkit-scrollbar
+		width: 8px
+	&::-webkit-scrollbar-track
+		border-radius: 6px
+		background-color: #e7e7e7
+		border: 1px solid #cacaca
+		box-shadow: inset 0 0 6px rgba(0, 0, 0, .3)
+	&::-webkit-scrollbar-thumb
+		border-radius: 6px
+		background-color: #363636
 
-// https://codepen.io/devstreak/pen/dMYgeO
-//::-webkit-scrollbar-track
-//	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3)
-//	background-color: #F5F5F5
-
-//::-webkit-scrollbar
-//	width: 12px
-//	background-color: #F5F5F5
-
-//::-webkit-scrollbar-thumb
-//	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3)
-//	background-color: #555
-
-
-::-webkit-scrollbar
-	width: 20px
-
-::-webkit-scrollbar-track
-	background-color: transparent
-
-::-webkit-scrollbar-thumb
-	background-color: #d6dee1
-	border-radius: 20px
-	border: 6px solid transparent
-	background-clip: content-box
-
-::-webkit-scrollbar-thumb:hover
-	background-color: #a8bbbf
 
 
 body
 	margin: 0
 	padding: 90px 50px 50px 50px
-	//max-width: 1700px
 
 	header
 		position: absolute
 		top: 0
 		left: 0
 		display: flex
-		justify-content: space-evenly
+		justify-content: space-between
 		align-items: center
 		margin: 0
 		padding: 10px
-		width: 100%
+		width: calc(100% - 20px)
 		background-color: $Davys_Grey
+		svg
+			fill: #6495ED
+		svg:hover
+			fill: #4d78c6
+			transition-duration: 100ms
 		p
 			font-size: 3em
 			margin: 0
@@ -92,23 +98,14 @@ body
 				font-size: 2em
 				margin: 0
 				padding: 0 20px
+				color: $Uranium_Blue
 
 	#arena
 		border-style: solid
-		//border-width: 5px // Arena border width
-		//border-color: black // Arena border color
-		//background-color: #c0b4a5 // Arena background color
-		//height: 800px // Arena height
 	.player
 		position: absolute
-		//height: 100px // Player height
-		//width: 10px // Player width
-		//background-color: black // Player color
 	#ball
-		//width: 40px // Ball size
 		aspect-ratio: 1
-		//background-color: green // Ball color
-		//border-radius: 100% // Is it a ball or a square ? (i am so incredible)
 		position: absolute
 
 	#infos
@@ -123,8 +120,6 @@ body
 				display: flex
 				flex-flow: column
 				padding: 20px
-				button
-					margin: 10px 3px
 			div#playerID
 				padding: 10px
 				margin: 0 0 10px 0
@@ -132,6 +127,7 @@ body
 					font-size: 2em
 					margin: 0
 					padding: 0 20px
+					color: $Uranium_Blue
 		#msg
 			font-size: 2em
 			color: $Uranium_Blue
@@ -156,3 +152,48 @@ body
 				overflow: auto
 				tab-size: 4
 				resize: none
+
+
+
+// https://getcssscan.com/css-buttons-examples
+.ctrl
+	button
+		appearance: none
+		border: 1px solid rgba(27, 31, 35, .15)
+		border-radius: 6px
+		box-shadow: rgba(27, 31, 35, .1) 0 1px 0
+		box-sizing: border-box
+		color: #fff
+		display: inline-block
+		font-size: 14px
+		font-weight: 600
+		line-height: 20px
+		padding: 6px 16px
+		position: relative
+		text-align: center
+		text-decoration: none
+		user-select: none
+		-webkit-user-select: none
+		touch-action: manipulation
+		vertical-align: middle
+		white-space: nowrap
+		width: 200px
+		margin: 10px 5px
+		&.p1
+			background-color: cssVar(p1-normal)
+		&.p2
+			background-color: cssVar(p2-normal)
+	button:disabled
+		border-color: rgba(27, 31, 35, .1)
+		color: rgba(255, 255, 255, .8)
+		&.p1
+			background-color: cssVar(p1-disable)
+		&.p2
+			background-color: cssVar(p2-disable)
+	button:hover
+		&.p1
+			background-color: cssVar(p1-hover)
+		&.p2
+			background-color: cssVar(p2-hover)
+	button:focus
+		outline: none
