@@ -7,7 +7,7 @@
 $Eerie_Black: rgba(#252525, .99)
 $Davys_Grey: #4F4F4F
 $Davys_Grey_New: #a3a3a3
-$Blue_Bell: #8D91C7
+$Blue_Bell: #4d53ab
 $Uranium_Blue: #B0DAF1
 $Mindaro: #DDFCAD
 
@@ -207,3 +207,53 @@ body
 			background-color: cssVar(p2-hover)
 	button:focus
 		outline: none
+
+
+#cardwrap
+	display: flex
+	justify-content: center
+	flex-flow: column
+	a
+		text-decoration: none
+		//background-position: center center
+		background-position-y: 25%
+		background-position-x: center
+		margin: 50px
+		border-radius: 50px
+		transition: all 0.3s ease
+	p
+		font-family: 'Nunito', sans-serif
+		font-weight: 800
+		text-align: center
+		vertical-align: middle
+		margin: 0
+		color: $Blue_Bell
+		text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5)
+	div
+		padding: 75px
+		background-color: rgba($Davys_Grey, 0.5)
+		backdrop-filter: blur(10px)
+		font-size: 7em
+		justify-content: center
+		box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px
+		border-radius: 50px
+
+	a:hover
+		transform: scale(1.05)
+
+
+#lostwrap
+	display: flex
+	justify-content: center
+	align-items: center
+	flex-flow: column
+	img
+		padding: 100px 0 50px 0
+	p
+		font-size: 2em
+		color: $Uranium_Blue
+		font-family: 'Source Sans Pro', sans-serif
+		font-weight: 400
+		text-align: center
+	a
+		color: $Mindaro

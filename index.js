@@ -87,5 +87,13 @@ io.on('connection', (socket) => {
 		io.emit(`stopGame-rep-${res.id}`, res.player);
 	});
 
+	socket.on(`ballStuckNotAdmin-ask`, res => {
+		io.emit(`ballStuckNotAdmin-rep-${res.id}`);
+	});
+
+	socket.on(`plsStartGame-ask`, res => {
+		io.emit(`plsStartGame-rep-${res.id}`);
+	});
+
 });
 

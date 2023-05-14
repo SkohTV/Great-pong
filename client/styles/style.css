@@ -222,4 +222,60 @@ body #infos #custom textarea {
 }
 .ctrl button:focus {
   outline: none;
+}
+
+#cardwrap {
+  display: flex;
+  justify-content: center;
+  flex-flow: column;
+}
+#cardwrap a {
+  text-decoration: none;
+  background-position-y: 25%;
+  background-position-x: center;
+  margin: 50px;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+}
+#cardwrap p {
+  font-family: "Nunito", sans-serif;
+  font-weight: 800;
+  text-align: center;
+  vertical-align: middle;
+  margin: 0;
+  color: #4d53ab;
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+}
+#cardwrap div {
+  padding: 75px;
+  background-color: rgba(79, 79, 79, 0.5);
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+  font-size: 7em;
+  justify-content: center;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-radius: 50px;
+}
+#cardwrap a:hover {
+  transform: scale(1.05);
+}
+
+#lostwrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column;
+}
+#lostwrap img {
+  padding: 100px 0 50px 0;
+}
+#lostwrap p {
+  font-size: 2em;
+  color: #B0DAF1;
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: 400;
+  text-align: center;
+}
+#lostwrap a {
+  color: #DDFCAD;
 }/*# sourceMappingURL=style.css.map */

@@ -282,6 +282,19 @@ function movePlayer(p, x){
 }
 
 
+function ballStuck(x){
+	if (!x){ // if player 1 has WON
+		ball.yPos = playerX[1].yPos - (gameConfig.ballSize / 2) + (gameConfig.playerSize / 2);
+		ball.xPos = arena.right + arenaItem.offsetLeft - gameConfig.playerSpace - gameConfig.playerWidth - gameConfig.ballSize;
+		ball.xDir = -Math.abs(ball.xDir);
+	} else { // else player 2 has WON
+		ball.yPos = playerX[0].yPos - (gameConfig.ballSize / 2) + (gameConfig.playerSize / 2);
+		ball.xPos = arena.left + gameConfig.playerSpace + gameConfig.playerWidth;
+		ball.xDir = Math.abs(ball.xDir);
+	} loadInstantCSS();
+}
+
+
 
 //
 //* Stop/start the game
@@ -290,7 +303,11 @@ function movePlayer(p, x){
 
 
 function start(){
-	displayLoader();
+	clearInterval(moveBallInterval);
+
+	if (parseInt(document.querySelector(`.score.p1>p`).textContent) + parseInt(document.querySelector(`.score.p2>p`).textContent) === 0){
+		displayLoader(); // We load display ONLY if first time
+	}
 
 	moveBallInterval = setInterval(moveBall, 20);
 	document.getElementById('controls').style.display = 'none';
