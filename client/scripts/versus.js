@@ -137,7 +137,7 @@ function keyboardControlGlobal(){
 	keyPressed.forEach(key => {
 		switch (key){
 			case 'Space':
-				if (!gameState){
+				if (!gameState && !(document.activeElement.tagName === 'TEXTAREA' || document.activeElement.nodeName === 'TEXTAREA')){
 					start();
 					gameState = 1;
 					socket.emit('gameStarted-ask', {id: gameID});

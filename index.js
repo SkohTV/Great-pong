@@ -1,11 +1,8 @@
 const express = require('express');
 const app = express();
-
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
-
 const path = require('path');
-
 
 const PORT = process.env.PORT || 3000;
 
@@ -16,13 +13,13 @@ app.use(express.static(path.join(__dirname, 'client')));
 
 // Routing for root
 app.get('/', (req, res) => {
-	res.sendFile(path.join(__dirname, 'client/pages/index.html'));
+	res.status(200).sendFile(path.join(__dirname, 'client/pages/index.html'));
 });
 
 
 // Routing for local (no server allocated)
 app.get('/local', (req, res) => {
-	res.sendFile(path.join(__dirname, 'client/pages/local.html'));
+	res.status(200).sendFile(path.join(__dirname, 'client/pages/local.html'));
 });
 
 
@@ -32,10 +29,16 @@ app.get('/versus', (req, res) => {
 	if (!dynamicID){
 		const randomString = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
 		playersLogged[randomString] = 0
-		res.redirect(`/versus?id=${randomString}`)
+		res.status(302).redirect(`/versus?id=${randomString}`)
 	} else {
-		res.sendFile(path.join(__dirname, `client/pages/versus.html`));
+		res.status(200).sendFile(path.join(__dirname, `client/pages/versus.html`));
 	}
+});
+
+
+// Routing for 404
+app.use((req, res) => {
+	res.status(404).sendFile(path.join(__dirname, `client/pages/404.html`))
 });
 
 

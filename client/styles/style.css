@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap");
 html {
   background-image: url(/src/background.svg);
   background-repeat: repeat;
@@ -38,20 +40,35 @@ body header {
   align-items: center;
   margin: 0;
   padding: 10px;
-  width: calc(100% - 20px);
+  width: 99vw;
   background-color: #4F4F4F;
 }
-body header svg {
+body header svg#back {
   fill: #6495ED;
 }
-body header svg:hover {
+body header svg#back:hover {
   fill: #4d78c6;
+  transition-duration: 100ms;
+}
+body header svg#github {
+  padding: 0 20px 0 0;
+}
+body header svg#github path {
+  fill: #24292f;
+}
+body header svg#github:hover path {
+  fill: #000000;
   transition-duration: 100ms;
 }
 body header p {
   font-size: 3em;
   margin: 0;
   color: #DDFCAD;
+  font-family: "Nunito", sans-serif;
+  font-weight: 600;
+}
+body header .empty {
+  min-width: 48px;
 }
 body #score {
   display: flex;
@@ -60,7 +77,7 @@ body #score {
 }
 body #score div.score {
   padding: 10px;
-  margin: 0 0 10px 0;
+  margin: 7px 0 10px 0;
   border: 2px solid black;
   border-radius: 10px;
 }
@@ -73,13 +90,14 @@ body #score div.score p {
 }
 body #score div#gameID {
   padding: 10px;
-  margin: 0 0 10px 0;
 }
 body #score div#gameID p {
   font-size: 2em;
   margin: 0;
   padding: 0 20px;
   color: #B0DAF1;
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: 400;
 }
 body #arena {
   border-style: solid;
@@ -116,10 +134,14 @@ body #infos #controls div#playerID p {
   margin: 0;
   padding: 0 20px;
   color: #B0DAF1;
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: 400;
 }
 body #infos #msg {
   font-size: 2em;
   color: #B0DAF1;
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: 400;
 }
 body #infos #custom {
   display: flex;
@@ -187,10 +209,10 @@ body #infos #custom textarea {
   color: rgba(255, 255, 255, 0.8);
 }
 .ctrl button:disabled.p1 {
-  background-color: var(--p1-disable);
+  background-color: var(--p1-hover);
 }
 .ctrl button:disabled.p2 {
-  background-color: var(--p2-disable);
+  background-color: var(--p2-hover);
 }
 .ctrl button:hover.p1 {
   background-color: var(--p1-hover);

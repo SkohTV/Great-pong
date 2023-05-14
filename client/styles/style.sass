@@ -1,3 +1,9 @@
+// Google Font imports
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap')
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap')
+
+
+// Color variables
 $Eerie_Black: rgba(#252525, .99)
 $Davys_Grey: #4F4F4F
 $Davys_Grey_New: #a3a3a3
@@ -5,20 +11,8 @@ $Blue_Bell: #8D91C7
 $Uranium_Blue: #B0DAF1
 $Mindaro: #DDFCAD
 
-$p1-normal: #2ea44f
 
-
-
-// When you realize you went too far
-// https://codepen.io/jakealbaugh/post/css4-variables-and-sass
-//:root
-//	--p1-normal: #2ea44f
-//	--p1-hover: #2c974b
-//	--p1-disable: #94d3a2
-//	--p2-normal: #302ea4
-//	--p2-hover: #2c4597
-//	--p2-disable: #94b1d3
-
+// To export SASS var as CSS var
 @function cssVar($name)
 	@return var(--#{$name})
 
@@ -49,7 +43,6 @@ textarea
 		background-color: #363636
 
 
-
 body
 	margin: 0
 	padding: 90px 50px 50px 50px
@@ -63,17 +56,29 @@ body
 		align-items: center
 		margin: 0
 		padding: 10px
-		width: calc(100% - 20px)
+		width: 99vw
+		//width: calc(100% - 20px)
 		background-color: $Davys_Grey
-		svg
+		svg#back
 			fill: #6495ED
-		svg:hover
+		svg#back:hover
 			fill: #4d78c6
+			transition-duration: 100ms
+		svg#github
+			padding: 0 20px 0 0
+		svg#github path
+			fill: #24292f
+		svg#github:hover path
+			fill: #000000
 			transition-duration: 100ms
 		p
 			font-size: 3em
 			margin: 0
 			color: $Mindaro
+			font-family: 'Nunito', sans-serif
+			font-weight: 600
+		.empty
+			min-width: 48px
 
 	#score
 		display: flex
@@ -82,7 +87,7 @@ body
 		
 		div.score
 			padding: 10px
-			margin: 0 0 10px 0
+			margin: 7px 0 10px 0
 			border: 2px solid black
 			border-radius: 10px
 			p
@@ -93,12 +98,13 @@ body
 				text-shadow: 1px 0 #000000, -1px 0 #000000, 0 1px #000000, 0 -1px #000000,
 		div#gameID
 			padding: 10px
-			margin: 0 0 10px 0
 			p
 				font-size: 2em
 				margin: 0
 				padding: 0 20px
 				color: $Uranium_Blue
+				font-family: 'Source Sans Pro', sans-serif
+				font-weight: 400
 
 	#arena
 		border-style: solid
@@ -128,9 +134,13 @@ body
 					margin: 0
 					padding: 0 20px
 					color: $Uranium_Blue
+					font-family: 'Source Sans Pro', sans-serif
+					font-weight: 400
 		#msg
 			font-size: 2em
 			color: $Uranium_Blue
+			font-family: 'Source Sans Pro', sans-serif
+			font-weight: 400
 		#custom
 			display: flex
 			flex-flow: column
@@ -187,9 +197,9 @@ body
 		border-color: rgba(27, 31, 35, .1)
 		color: rgba(255, 255, 255, .8)
 		&.p1
-			background-color: cssVar(p1-disable)
+			background-color: cssVar(p1-hover)
 		&.p2
-			background-color: cssVar(p2-disable)
+			background-color: cssVar(p2-hover)
 	button:hover
 		&.p1
 			background-color: cssVar(p1-hover)

@@ -9,7 +9,7 @@ document.getElementById('custom-yaml').value = `ball:
   speed: 5
   size: 20
   color: 008000
-  isBall: false
+  isBall: 100
 arena:
   size: 400
   border: 3
@@ -51,7 +51,7 @@ arenaItem.style.width = arenaItem.offsetWidth - (gameConfig.arenaBorder*2) + 'px
 function loadOnceCSS(){
 	ballItem.style.width = gameConfig.ballSize + 'px';
 	ballItem.style.backgroundColor = '#' + gameConfig.ballColor;
-	ballItem.style.borderRadius = gameConfig.isBall ? '100%' : '0%';
+	ballItem.style.borderRadius = gameConfig.isBall + '%';
 
 	arenaItem.style.height = gameConfig.arenaSize + 'px';
 	arenaItem.style.borderWidth = gameConfig.arenaBorder + 'px';
@@ -78,16 +78,10 @@ function loadOnceCSS(){
 
 	// https://stackoverflow.com/a/60357706/21143650
 	let i = 0;
-	const mapping = {
-		'.p1.up' : ['--p1-normal', '--p1-hover', '--p1-disable'],
-		'.p1.down' : ['--p1-normal', '--p1-hover', '--p1-disable'],
-		'.p2.up' : ['--p2-normal', '--p2-hover', '--p2-disable'],
-		'.p2.down' : ['--p2-normal', '--p2-hover', '--p2-disable']};
-	for (const key in mapping){
+	for (const select of ['.p1.up', '.p1.down', '.p2.up', '.p2.down']){
 		const index = Math.floor(i/2)
-		document.querySelector(key).style.setProperty(mapping[key][0], '#'+gameConfig.playerColor[index]);
-		document.querySelector(key).style.setProperty(mapping[key][1], '#'+gameConfig.playerColor[index]);
-		document.querySelector(key).style.setProperty(mapping[key][2], '#'+gameConfig.playerColor[index]);
+		document.querySelector(select).style.setProperty(`--p${index+1}-normal`, '#'+gameConfig.playerColor[index]);
+		document.querySelector(select).style.setProperty(`--p${index+1}-hover`, rgb2hex(darken(hex2rgb('#'+gameConfig.playerColor[index]), 35)));
 		i++;
 	}
 }
@@ -313,14 +307,15 @@ function start(){
 
 addEventListener("load", e => {
 	// This whole purpose it to override tab presses to '  ' for yaml config :)
-	document.getElementById('custom-yaml').addEventListener('keydown', (event) => {
-		if (event.key === 'Tab') {
-			event.preventDefault();
-			const start = myInput.selectionStart;
-			const end = myInput.selectionEnd;
-			const value = myInput.value;
-			myInput.value = value.substring(0, start) + '  ' + value.substring(end);
-			myInput.selectionStart = myInput.selectionEnd = start + 1;
+	document.getElementById('custom-yaml').addEventListener('keydown', e => {
+		if (e.key === 'Tab') {
+			const item = e.target;
+			e.preventDefault();
+			const start = item.selectionStart;
+			const end = item.selectionEnd;
+			const value = item.value;
+			item.value = value.substring(0, start) + '  ' + value.substring(end);
+			item.selectionStart = item.selectionEnd = start + 2;
 		}
 	});
 
@@ -333,8 +328,10 @@ addEventListener("load", e => {
 
 
 function updateCtrl(index, key, item){
+	item.disabled = true;
 	item.textContent = 'Listening...'
 	window.addEventListener('keypress', function tmp(e){
+		item.disabled = false;
 		key === 'up' ? playerX[index].ctrlUp = e.code : playerX[index].ctrlDown = e.code;
 		item.textContent = `Player${index+1} ${key==='up' ? '🡅' : '🡇'} : ${e.key}`;
 		defaultCtrl[ index*2 + (key==='up' ? 0 : 1) ] = e.code;
@@ -368,7 +365,7 @@ function parseYaml() {
 				if (key === 'speed'){ parsedYaml['ballSpeed'] = parseInt(value) }
 				else if (key === 'size'){ parsedYaml['ballSize'] = parseInt(value) }
 				else if (key === 'color'){ parsedYaml['ballColor'] = value }
-				else if (key === 'isBall'){ parsedYaml['isBall'] = (value === 'true' ? 1 : 0) }
+				else if (key === 'isBall'){ parsedYaml['isBall'] = Math.floor(parseInt(value)/2) }
 			}
 			else if (mode === 'arena'){
 				if (key === 'size'){ parsedYaml['arenaSize'] = parseInt(value) }
@@ -385,4 +382,32 @@ function parseYaml() {
 		}
 	}
 	return parsedYaml; // Return final value
+}
+
+
+
+//
+//* Changing color
+//
+
+function hex2rgb(hex){
+	return [
+		parseInt(hex.slice(1, 3), 16),
+		parseInt(hex.slice(3, 5), 16),
+		parseInt(hex.slice(5, 7), 16)
+	];
+}
+
+function rgb2hex(rgb){
+	// Insanity, welcome to the magnificent world of bitwise operations
+	return "#" + ((1 << 24) + (rgb[0] << 16) + (rgb[1] << 8) + rgb[2]).toString(16).slice(1);
+}
+
+function darken(rgb, amount){
+	console.log()
+	return [
+		Math.round(Math.max(rgb[0] * (1 - amount / 100), 0)),
+		Math.round(Math.max(rgb[1] * (1 - amount / 100), 0)),
+		Math.round(Math.max(rgb[2] * (1 - amount / 100), 0)),
+	];
 }
