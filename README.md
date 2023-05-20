@@ -54,4 +54,4 @@ To run this project, you need to have the following software installed on your s
 1. Clone the repo to your local machine
 2. Install the dependancies by running : `npm install`
 3. You can then start the server by running : `npm start` (it should print the port in use in terminal)
-4. The server should then be available at http://localhost:3000
+4. The server should then be available at <a href="http://localhost:3000" target="_blank">http://localhost:3000<\a>
