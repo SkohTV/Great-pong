@@ -27,8 +27,8 @@ This project is a NodeJS website using express.js and socket.io to make a multip
 
 ## Project Structure
 
-<!-- The cs tag is just for the color scheme to be cool looking on github -->
-```cs
+<!-- The php tag is just for the color scheme to be cool looking on github -->
+```php
 ├── README.md             # Project documentation (you are here)
 ├── index.js              # Serverside router (entry point for application)
 ├── .editorconfig         # Editor configuration file
