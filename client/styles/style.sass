@@ -13,6 +13,8 @@ $Mindaro: #DDFCAD
 
 
 // To export SASS var as CSS var
+// So that we can change color of buttons to match players color
+// https://stackoverflow.com/a/60357706/21143650 (see function loadOnceCSS in global.js)
 @function cssVar($name)
 	@return var(--#{$name})
 
@@ -57,7 +59,6 @@ body
 		margin: 0
 		padding: 10px
 		width: 99vw
-		//width: calc(100% - 20px)
 		background-color: $Davys_Grey
 		svg#back
 			fill: #6495ED
@@ -215,7 +216,6 @@ body
 	flex-flow: column
 	a
 		text-decoration: none
-		//background-position: center center
 		background-position-y: 25%
 		background-position-x: center
 		margin: 50px
@@ -242,7 +242,7 @@ body
 		transform: scale(1.05)
 
 
-#lostwrap
+#lastwrap
 	display: flex
 	justify-content: center
 	align-items: center

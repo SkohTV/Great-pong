@@ -260,22 +260,22 @@ body #infos #custom textarea {
   transform: scale(1.05);
 }
 
-#lostwrap {
+#lastwrap {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-flow: column;
 }
-#lostwrap img {
+#lastwrap img {
   padding: 100px 0 50px 0;
 }
-#lostwrap p {
+#lastwrap p {
   font-size: 2em;
   color: #B0DAF1;
   font-family: "Source Sans Pro", sans-serif;
   font-weight: 400;
   text-align: center;
 }
-#lostwrap a {
+#lastwrap a {
   color: #DDFCAD;
 }/*# sourceMappingURL=style.css.map */
