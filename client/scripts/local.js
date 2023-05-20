@@ -53,7 +53,6 @@ function keyboardControlGlobal(){
 // Called when stopping the game
 function stopGame(x){
 	// Stop the game
-	gameState = 0;
 	clearInterval(moveBallInterval);
 	document.getElementById('msg').style.display = 'block';
 
@@ -65,7 +64,7 @@ function stopGame(x){
 
 	// If game NOT finished, early return
 	// Else, skip and continue
-	[scoreP1, scoreP2] = [scoreP1.textContent, scoreP2.textContent]
+	[scoreP1, scoreP2] = [parseInt(scoreP1.textContent), parseInt(scoreP2.textContent)]
 	if ((scoreP1 < 5 && scoreP2 < 5) || (Math.abs(scoreP1-scoreP2) < 2)){
 		moveBallInterval = setInterval(() => ballStuck(x), 5); // Set an interval to stick ball to a player
 		return;

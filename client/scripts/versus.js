@@ -174,7 +174,7 @@ function keyboardControlGlobal(){
 				// starterPlayer : the player that can start the game (so only one player can start it)
 				if (playerID === starterPlayer && globalGamestate && !gameState && !(document.activeElement.tagName === 'TEXTAREA' || document.activeElement.nodeName === 'TEXTAREA')){
 					if (isAdmin){ startGame(); } // If admin, we start the game
-					else { socket.emit('plsStartGame-ask', {id: gameID}); } // Else, we KINDLY ASK for the admin to start it
+					else { socket.emit('plsStartGame-ask', {id: gameID}); document.getElementById("msg").style.display = "none" } // Else, we KINDLY ASK for the admin to start it
 				} break ;
 		}
 	})
@@ -197,7 +197,6 @@ function stopGame(x){
 	socket.emit('stopGame-ask', {id: gameID, player: x});
 
 	// Stop the game
-	gameState = 0;
 	clearInterval(moveBallInterval);
 	displayScore(x) // Long function, look below
 }
@@ -221,7 +220,7 @@ function displayScore(x){
 
 	// If game NOT finished, early return
 	// Else, skip and continue
-	[scoreP1, scoreP2] = [scoreP1.textContent, scoreP2.textContent]
+	[scoreP1, scoreP2] = [parseInt(scoreP1.textContent), parseInt(scoreP2.textContent)]
 	if ((scoreP1 < 5 && scoreP2 < 5) || (Math.abs(scoreP1-scoreP2) < 2)){
 		if (isAdmin){ moveBallInterval = setInterval(() => ballStuck(x), 5); } // Set an interval to stuck ball to a player
 		else { socket.emit('ballStuckNotAdmin-ask', {id: gameID}); } // Asks for the admin to do it

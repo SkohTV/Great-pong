@@ -323,6 +323,9 @@ function ballStuck(x){
 		ball.xPos = arena.left + gameConfig.playerSpace + gameConfig.playerWidth;
 		ball.xDir = Math.abs(ball.xDir);
 	} loadInstantCSS(); // Reload display (low cost)
+	// Why here ? Because otherwise you could just maintain Space and insta win
+	// Lazy fix, but efficient
+	gameState = 0;
 }
 
 
